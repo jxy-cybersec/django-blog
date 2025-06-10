@@ -1,0 +1,32 @@
+{% extends "blog/base.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<article>
+    <h1>{{ post.title }}</h1>
+    <p><small>By {{ post.author }} | {{ post.date_posted }}</small></p>
+    <hr>
+    <p>{{ post.content }}</p>
+</article>
+<a href="/" class="btn btn-secondary mt-3">Back to Home</a>
+{% endblock %}
+
+<h3>Comments</h3>
+{% for comment in comments %}
+    <div>
+        <strong>{{ comment.name }}</strong> ({{ comment.timestamp }}):<br>
+        {{ comment.content }}
+    </div>
+    <hr>
+{% empty %}
+    <p>No comments yet.</p>
+{% endfor %}
+
+<h4>Leave a comment:</h4>
+<form method="post">
+  {% csrf_token %}
+  <input type="text" name="name" placeholder="Your name" required><br><br>
+  <textarea name="content" rows="4" required></textarea><br>
+  <button type="submit">Post Comment</button>
+</form>
